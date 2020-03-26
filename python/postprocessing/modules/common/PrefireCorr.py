@@ -136,4 +136,3 @@ class PrefCorr(Module):
       if self.variation == -1:
         pref_prob = max(pref_prob - math.sqrt(stat*stat + syst*syst), 0.0)
       return pref_prob
-
