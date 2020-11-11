@@ -7,8 +7,8 @@ from PhysicsTools.NanoAODTools.postprocessing.modules.jme.fatJetUncertainties im
 
 # JEC dict
 jecTagsMC = {'2016' : 'Summer16_07Aug2017_V11_MC', 
-#             '2017' : 'Fall17_17Nov2017_V32_MC', 
-             '2017' : 'Spring18_ppRef5TeV_V4_MC', 
+             '2017' : 'Fall17_17Nov2017_V32_MC', 
+             '2017G' : 'Spring18_ppRef5TeV_V4_MC', 
              '2018' : 'Autumn18_V19_MC'}
 
 jecTagsFastSim = {'2016' : 'Summer16_FastSimV1_MC',
@@ -40,8 +40,8 @@ jecTagsDATA = { '2016B' : 'Summer16_07Aug2017BCD_V11_DATA',
                 } 
 
 jerTagsMC = {'2016' : 'Summer16_25nsV1_MC',
-#             '2017' : 'Fall17_V3_MC',
-             '2017' : 'Spring18_ppRef5TeV_V4_MC',
+             '2017' : 'Fall17_V3_MC',
+             '2017G' : 'Spring18_ppRef5TeV_V4_MC',
              '2018' : 'Autumn18_V7_MC'
             }
 
@@ -65,7 +65,11 @@ def createJMECorrector(isMC=True, dataYear=2016, runPeriod="B", jesUncert="Total
     dataYear = str(dataYear)
 
     if isMC and not isFastSim:
-        jecTag_ = jecTagsMC[dataYear]
+        if dataYear=="2017" and runPeriod == "G": 
+            jecTag_ = jecTagsMC[dataYear + runPeriod]
+        else: 
+            jecTag_ = jecTagsMC[dataYear]
+        
     elif isMC and isFastSim:
         jecTag_ = jecTagsFastSim[dataYear]
     else:
@@ -73,7 +77,10 @@ def createJMECorrector(isMC=True, dataYear=2016, runPeriod="B", jesUncert="Total
 
     jmeUncert_ = [x for x in jesUncert.split(",")]
 
-    jerTag_ = jerTagsMC[dataYear] 
+    if dataYear=="2017" and runPeriod == "G": 
+        jerTag_ = jerTagsMC[dataYear + runPeriod]
+    else: 
+        jerTag_ = jerTagsMC[dataYear] 
 
     jmrValues_ = jmrValues[dataYear]
 
